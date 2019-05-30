@@ -1,0 +1,94 @@
+body {
+    background-color: #f1f1f1;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+div {
+    flex-direction: row;
+}
+
+/* Style for location */
+
+.container-location {
+    width: 30%;
+}
+
+.location, 
+.temperature {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    background-color: #fff;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.temperature {
+    flex-direction: column;  
+}
+
+.temperature-description,
+.location-name {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.degree-section,
+.location-name  {
+    display: flex;
+    align-items: center;
+}
+
+
+.degree-section span {
+    margin: 10px;
+    font-size: 20px;
+}
+
+/* Style for main */
+
+.main-container {
+    width: 100%;
+}
+
+/* Style for currency*/
+
+.container-currency {
+    font-size: 20px;
+    margin: 30px 20px;
+}
+
+.currency {
+    background-color: #fff;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.name,
+.sale,
+.buy {
+    display: flex;
+    margin: 5px;
+    text-align: center;
+    border-bottom: 1px solid #000;
+}
+
+div {
+    flex-direction: row;
+    margin: 10px 5px;
+    text-align: center;
+}
+
+div .name div {
+    width: 75px;
+}
+
+h3 {
+    color: #A52A2A;
+}
