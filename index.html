@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<div class="wrapper">
     <div class="container-location">
         <div class="location">
             <h2>Your City</h2>
@@ -19,7 +20,6 @@
             <p class="location-name"></p>
             <div class="degree-section">
                 <h2 class="temperature-degree"></h2>
-                <span>°C</span>
             </div>
             <div class="temperature-description">
             </div>
@@ -27,8 +27,11 @@
     </div>
 
     <div class="main-container">
+            <div class="search-contain">
+                <input type="text" placeholder="City name" id="search-input">
+                <button class="search-control" id="search-btn">Add</button>
+            </div>
     </div>
-    
     <div class="container-currency">
         <div class="currency">
             <h3>Exchange Rates</h3>
@@ -37,6 +40,8 @@
             <div class="sale"></div>
         </div>
     </div>
-
+</div>
+<div class="weather-container">
+    </div>
 </body>
 </html>
