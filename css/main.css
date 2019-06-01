@@ -89,15 +89,16 @@ div {
 }
 
 .search-control:hover,
-.remove:hover {
+.remove:hover,
+.refresh:hover {
     background-color: #A52A2A;
     color: #fff;
 }
 
 .weather-container {
     width: 40%;
-    margin: auto 25%;
-    font-size: 20px;
+    margin: auto 22%;
+    font-size: 25px;
 }
 
 .city-weather {
@@ -112,7 +113,8 @@ div {
     margin: 10px;
 }
 
-.remove {
+.remove,
+.refresh {
     font-size: 15px;
     border-radius: 5px;
     border: 1px solid #A52A2A;
@@ -121,7 +123,6 @@ div {
     background-color: #fff;
     margin: 10px 5px;
     width: 100px;
-
 }
 
 /* Style for currency*/
@@ -138,23 +139,26 @@ div {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.name,
-.sale,
-.buy {
-    display: flex;
-    margin: 5px;
+table {
     text-align: center;
+    width: 300px;
+}
+
+td {
+    border-bottom: 1px solid #000;
+    height: 30px;
+}
+
+tr {
     border-bottom: 1px solid #000;
 }
+
+
 
 div {
     flex-direction: row;
     margin: 10px 5px;
     text-align: center;
-}
-
-div .name div {
-    width: 75px;
 }
 
 h3 {
