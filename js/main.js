@@ -11,18 +11,18 @@ function userLocationWeather() {
     var locationName = document.querySelector(".location-name");
 
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function(position) {
             long = position.coords.longitude;
             lat = position.coords.latitude;
             
-            var appId = "a03e764ac19cc224e87a100ab518b340";
-            var api = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&APPID=${appId}`;
+            var api = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&APPID=a03e764ac19cc224e87a100ab518b340`;
         
-            fetch(api).then((response) => {
+            fetch(api)
+            .then(response => {
                 return response.json();
             })
-            .then((data) => {
-                temperatureDegree.innerText = Math.round(data.main.temp - 273,15)+ " °C";
+            .then(data => {
+                temperatureDegree.innerText = Math.round(data.main.temp - 273,15) + " °C";
                 temperatureDescription.innerText = data.weather[0].description;
                 weatherIcon.src = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
                 locationName.innerText = data.name;
@@ -53,7 +53,8 @@ function currencyWidget() {
      
     var api = `https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11`;
 
-    fetch(api).then((response) => {
+    fetch(api)
+    .then((response) => {
         return response.json();
     }).then((data) => { 
         nameUsd.innerHTML = data[0].ccy;
@@ -73,67 +74,91 @@ function currencyWidget() {
 }
 
 currencyWidget();
-
- function update() {
-  setInterval(currencyWidget, 
-    3600000);
- }
- update();
+setInterval(currencyWidget, 3600000);
 
 /* SearchWeather */
 
-    var cityWeatherList = [];
-    var searchBtn = document.getElementById("search-btn");
-    var weatherContainer = document.querySelector(".weather-container");
+var cityWeatherList = [];
+var searchBtn = document.getElementById("search-btn");
+var weatherContainer = document.querySelector(".weather-container");
      
-    function getWeatherData() {
-        var city = document.getElementById("search-input");
-        var api = `http://api.openweathermap.org/data/2.5/weather?q=${city.value}&APPID=a03e764ac19cc224e87a100ab518b340`;
+function getWeatherData() {
+    var city = document.getElementById("search-input");
+    var api = `http://api.openweathermap.org/data/2.5/weather?q=${city.value}&APPID=a03e764ac19cc224e87a100ab518b340`;
 
-          fetch(api).then(response => {
-            return response.text();
-            }).then(data => {
-            var data = JSON.parse(data);
-            cityWeatherList.push(data);
-            localStorage.setItem("cities",JSON.stringify(cityWeatherList));
-            console.log(cityWeatherList);
-            showCityWeather();
-        })
-    }
+    fetch(api)
+    .then(response => {
+        return response.text();
+    }).then(data => {
+        var data = JSON.parse(data);
+        cityWeatherList.push(data);
+        localStorage.setItem("cities",JSON.stringify(cityWeatherList));
+        showCityWeather();
+    }).catch(error => {
+        console.log(error);
+    });
+}
 
-    searchBtn.addEventListener('click', getWeatherData);
+searchBtn.addEventListener('click', getWeatherData);
     
-    function check() {
-        if(localStorage.getItem("cities") != null) {
-            cityWeatherList = JSON.parse(localStorage.getItem("cities"));}  
+function check() {
+    if(localStorage.getItem("cities") != null) {
+        cityWeatherList = JSON.parse(localStorage.getItem("cities"));
+    }  
+}
+
+function showCityWeather() {
+    var item = "";
+    for(let i=0; i< cityWeatherList.length; i++) {
+        item = item +'<div class ="city-weather">';
+        item = item + '<h2 class ="city-name">' + cityWeatherList[i].name + '</h2>';
+        item = item + '<div class ="city-weather-icon"> '+ '<img src="https://openweathermap.org/img/w/'+ cityWeatherList[i].weather[0].icon + '.png">' +'</div>';
+        item = item + '<div class ="city-weather-info">' + Math.round(cityWeatherList[i].main.temp - 273,15)+ " °C" +'</div>';
+        item = item + '<div class ="city-weather-info">' + cityWeatherList[i].weather[0].description+"<br>"+"humidity: "+cityWeatherList[i].main.humidity+"%"+'</div>'; 
+        item = item + '<div class ="city-weather-info">' + '<button data-remove="' + [i] + '"class="remove">Remove</button>';
+        item = item + '<button data-refresh="' + cityWeatherList[i].name + '"item="' + [i] + '"class="refresh">Refresh</button>' + '</div>';
+        item = item + '</div>';
     }
-    function showCityWeather() {
-        var item = "";
-        for(let i=0; i< cityWeatherList.length; i++) {
-            item = item +'<div class = "city-weather">';
-            item = item + '<h2 class = "city-name">' + cityWeatherList[i].name + ', ' + cityWeatherList[i].sys.country + '</h2>';
-            item = item + '<div class = "city-weather-icon"> '+ '<img src="https://openweathermap.org/img/w/'+ cityWeatherList[i].weather[0].icon + '.png">' +'</div>';
-            item = item + '<div class = "city-weather-info">' + Math.round(cityWeatherList[i].main.temp - 273,15)+ " °C" +'</div>';
-            item = item + '<div class = "city-weather-info">' + cityWeatherList[i].weather[0].description+"<br>"+"humidity: "+cityWeatherList[i].main.humidity+"%"+'</div>'; 
-            item = item + '<div class = "city-weather-info">' + '<button data-remove ="' + [i] + '" class = "remove">Delete</button>'+'</div>';
-            item = item + '</div>';
-        }
-        weatherContainer.innerHTML = item;
-    }
-    
-    function remove(event) {
+    weatherContainer.innerHTML = item;
+}
+
+check();
+showCityWeather(); 
+
+function remove(event) {
     if (event.target.className === "remove") {
-    var attribut = event.target.getAttribute("data-remove");
-    cityWeatherList.splice([attribut],1);
-    showCityWeather();
-    localStorage.setItem("cities",JSON.stringify(cityWeatherList));
-        }
+        var attribut = event.target.getAttribute("data-remove");
+        cityWeatherList.splice([attribut],1);
+        showCityWeather();
+        localStorage.setItem("cities",JSON.stringify(cityWeatherList));
+    }
+}
+
+document.addEventListener('click', remove);
+
+function refresh(event) { 
+    if (event.target.className === "refresh") {
+        var index = event.target.getAttribute("data-refresh");
+        var item = event.target.getAttribute("item");  
+        updateWeather();
     }
 
-    document.addEventListener('click', remove);
-
-    window.onload = function() {
-        check();
-        showCityWeather(); 
+    function updateWeather (){
+        var api = `http://api.openweathermap.org/data/2.5/weather?q=${index}&APPID=a03e764ac19cc224e87a100ab518b340`; 
+    
+        fetch(api).then(response => {
+            return response.text();
+        }).then(data => {
+            var data = JSON.parse(data);
+            cityWeatherList.splice([item],1,data);
+            showCityWeather();
+            localStorage.setItem("cities",JSON.stringify(cityWeatherList));
+        }).catch(error => {
+            console.log(error);
+        });
     }
+}
+
+document.addEventListener("click", refresh);
+
 });
